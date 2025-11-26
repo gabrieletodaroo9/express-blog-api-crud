@@ -1,38 +1,17 @@
 const express = require('express')
 const router = express.Router()
-const posts = require('../posts')
+const postController = require('../controllers/postController')
 
-router.get('/', (req, res) => {
-  res.json(posts)
-})
+router.get('/', postController.index)
 
-router.get('/:id', (req, res) => {
-  const post = posts.find(post => post.id == req.params.id)
-  if (post) {
-    res.json(post)
-  } else {
-    res.send('Nessun post trovato con questo id')
-  }
-})
+router.get('/:id', postController.show)
 
-router.post('/', (req, res) => {
-  res.send('Store a new post into the array')
-})
+router.post('/', postController.store)
 
-router.put('/:id', (req, res) => {
-  res.send(`Update the element with id:${req.params.id}`)
-})
+router.put('/:id', postController.upgrade)
 
-router.patch('/:id', (req, res) => {
-  res.send(`Modify the element with id:${req.params.id}`)
-})
+router.patch('/:id', postController.modify)
 
-router.delete('/:id', (req, res) => {
-  res.send(`Destroy the element with id:${req.params.id}`)
-})
-
-
-
-
+router.delete('/:id', postController.destroy)
 
 module.exports = router;
