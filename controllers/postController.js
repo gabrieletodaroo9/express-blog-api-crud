@@ -9,12 +9,30 @@ const show = (req, res) => {
     if (post) {
         res.json(post)
     } else {
-        res.send('Nessun post trovato con questo id')
+        res.status(404).json({
+            error: true,
+            message: "Post non trovato"
+        })
     }
 }
 
 const store = (req, res) => {
-    res.send('Store a new post into the array')
+    const title = req.query.title
+    const content = req.query.content
+    const image = req.query.image
+    const tags = req.query.tags
+    const newId = posts.length + 1
+
+    const newPost = {
+        id: newId,
+        title: title,
+        content: content,
+        image: image,
+        tags: tags
+    }
+
+    posts.push(newPost)
+    res.status(201).json(posts)
 }
 
 const upgrade = (req, res) => {
@@ -25,7 +43,16 @@ const modify = (req, res) => {
 }
 
 const destroy = (req, res) => {
-    res.send(`Destroy the element with id:${req.params.id}`)
-}
+    const id = Number(req.params.id)
+    const foundPost = posts.find(post => post.id === id)
+    if (!foundPost) {
+        return res.status(404).json({
+            error: true,
+            message: 'Post non trovato'
+        })
+    }
+    posts.splice(posts.indexOf(foundPost), 1)
+    res.sendStatus(204)
+};
 
 module.exports = { index, show, store, upgrade, modify, destroy }
