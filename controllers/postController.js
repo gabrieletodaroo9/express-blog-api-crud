@@ -1,4 +1,4 @@
-const posts = require('../posts')
+const posts = require('../data/posts')
 
 const index = (req, res) => {
     res.json(posts)
@@ -19,16 +19,12 @@ const show = (req, res) => {
 const store = (req, res) => {
     const title = req.query.title
     const content = req.query.content
-    const image = req.query.image
-    const tags = req.query.tags
     const newId = posts.length + 1
 
     const newPost = {
         id: newId,
         title: title,
         content: content,
-        image: image,
-        tags: tags
     }
 
     posts.push(newPost)
@@ -52,7 +48,7 @@ const destroy = (req, res) => {
         })
     }
     posts.splice(posts.indexOf(foundPost), 1)
-    res.sendStatus(204)
+    res.status(200).json(posts)
 };
 
 module.exports = { index, show, store, upgrade, modify, destroy }
