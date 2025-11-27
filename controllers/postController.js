@@ -21,14 +21,13 @@ const show = (req, res) => {
 }
 
 const store = (req, res) => {
-    const title = req.query.title
-    const content = req.query.content
-    const newId = posts.length + 1
 
     const newPost = {
-        id: newId,
-        title: title,
-        content: content,
+        id: Date.now,
+        title: req.body.title,
+        content: req.body.content,
+        image: req.body.image,
+        tags: req.body.tags
     }
 
     posts.push(newPost)
