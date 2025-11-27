@@ -21,7 +21,6 @@ const show = (req, res) => {
 }
 
 const store = (req, res) => {
-
     const newPost = {
         id: Date.now,
         title: req.body.title,
@@ -29,14 +28,26 @@ const store = (req, res) => {
         image: req.body.image,
         tags: req.body.tags
     }
-
     posts.push(newPost)
     res.status(201).json(posts)
 }
 
 const upgrade = (req, res) => {
-    res.send(`Update the element with id:${req.params.id}`)
+    const post = posts.find(post => post.id == req.params.id)
+    if (post) {
+        post.title = req.body.title,
+            post.content = req.body.content,
+            post.image = req.body.image,
+            post.tags = req.body.tags
+        res.json(post)
+    } else {
+        res.status(404).json({
+            error: true,
+            message: "Post non trovato"
+        })
+    }
 }
+
 const modify = (req, res) => {
     res.send(`Modify the element with id:${req.params.id}`)
 }
