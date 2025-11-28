@@ -3,6 +3,7 @@ const app = express()
 const PORT = 3000
 const postsRouter = require('./routers/posts')
 const serverError = require('./middlewares/serverError')
+const notFound = require('./middlewares/notFound')
 
 app.use(express.static("public"))
 app.use(express.json());
@@ -18,3 +19,5 @@ app.get('/', (req, res) => {
 app.use('/api/posts', postsRouter)
 
 app.use(serverError)
+
+app.use(notFound)
